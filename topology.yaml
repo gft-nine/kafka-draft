@@ -23,5 +23,4 @@ projects:
         name: "test"
         config:
           replication.factor: "1"
-          num.partitions: "1"
-          
+          num.partitions: "1" \n
