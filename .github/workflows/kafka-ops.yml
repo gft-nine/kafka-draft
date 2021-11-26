@@ -7,7 +7,7 @@ name: 'kafka-ops-ci'
 on:
   push:
     branches:
-    - main
+    - master
   pull_request:
 
 jobs:
