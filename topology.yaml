@@ -1,0 +1,26 @@
+---
+context: "arb"
+projects:
+  - name: "onboard"
+    topics:
+      - name: "datalake"
+        config:
+          replication.factor: "1"
+          num.partitions: "1"
+      - dataType: "avro"
+        name: "test"
+        config:
+          replication.factor: "1"
+          num.partitions: "1"
+      - dataType: "json"
+        name: "zet"
+        config:
+          replication.factor: "1"
+          num.partitions: "1"
+  - name: "platform"
+    topics:
+      - dataType: "avro"
+        name: "test"
+        config:
+          replication.factor: "1"
+          num.partitions: "1"

@@ -1,0 +1,26 @@
+# This workflow installs the latest version of Terraform CLI and configures the Terraform CLI configuration file
+# with an API token for Terraform Cloud (app.terraform.io). On pull request events, this workflow will run
+# `terraform init`, `terraform fmt`, and `terraform plan` (speculative plan via Terraform Cloud). On push events
+# to the master branch, `terraform apply` will be executed.
+
+name: 'kafka-ops-ci'
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+
+jobs:
+  kafka-ops-ci:
+    name: 'kafka-ops-ci'
+    runs-on: [self-hosted]
+
+    # Checkout the repository to the GitHub Actions runner
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: yaml-lint
+      uses: ibiqlik/action-yamllint@v3
+      #https://github.com/ibiqlik/action-yamllint
+
+  
