@@ -23,7 +23,6 @@ jobs:
       uses: ibiqlik/action-yamllint@v3
       with:
         file_or_dir: ./topology.yaml
-        config_file: .yamllint
       #https://github.com/ibiqlik/action-yamllint
 
   
