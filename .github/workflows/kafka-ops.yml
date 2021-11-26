@@ -21,6 +21,9 @@ jobs:
       uses: actions/checkout@v2
     - name: yaml-lint
       uses: ibiqlik/action-yamllint@v3
+      with:
+        file_or_dir: ./*values*.yaml
+        config_file: .yamllint
       #https://github.com/ibiqlik/action-yamllint
 
   
