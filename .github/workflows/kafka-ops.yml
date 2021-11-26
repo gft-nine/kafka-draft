@@ -22,7 +22,7 @@ jobs:
     - name: yaml-lint
       uses: ibiqlik/action-yamllint@v3
       with:
-        file_or_dir: ./topology.yaml
+        file_or_dir: ./topology.yaml ./topic.yaml
         config_data: "{extends: default, rules: {new-line-at-end-of-file: disable}}"
       #https://github.com/ibiqlik/action-yamllint
 
