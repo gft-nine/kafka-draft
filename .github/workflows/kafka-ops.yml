@@ -13,7 +13,7 @@ on:
 jobs:
   kafka-ops-ci:
     name: 'kafka-ops-ci'
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
 
     # Checkout the repository to the GitHub Actions runner
     steps:
