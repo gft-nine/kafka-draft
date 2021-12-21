@@ -9,11 +9,18 @@ on:
     branches:
     - master
   pull_request:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Person'
+        required: true
+        default: 'gft-nine'
 
 jobs:
   kafka-ops-ci:
     name: 'kafka-ops-ci'
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     # Checkout the repository to the GitHub Actions runner
     steps:
@@ -22,8 +29,40 @@ jobs:
     - name: yaml-lint
       uses: ibiqlik/action-yamllint@v3
       with:
-        file_or_dir: ./topology.yaml ./topic.yaml
+        file_or_dir: ./topology.yaml
         config_data: "{extends: default, rules: {new-line-at-end-of-file: disable}}"
       #https://github.com/ibiqlik/action-yamllint
-
+    - name: Install utilities
+      id: install-utilities
+      run: |
+        sudo apt update
+        sudo apt install openjdk-11-jdk -y
+        wget https://github.com/kafka-ops/julie/releases/download/v4.0.1/DEB.package.zip
+        unzip DEB.package.zip
+        sudo dpkg -i julie-ops_4.0.1_all.deb
+    - name: Julie plan
+      id: julie-plan
+      run: |
+        julie-ops --brokers "z-b-1.arbm-kafka-cluster.7435vo.c6.kafka.eu-central-1.amazonaws.com:9092,b-2.arbm-kafka-cluster.7435vo.c6.kafka.eu-central-1.amazonaws.com:9092" --clientConfig builder.properties --topology descriptor.yaml --dryRun
+    - name: Julie Validate
+      id: julie-validate
+      run: |
+        julie-ops --brokers "z-b-1.arbm-kafka-cluster.7435vo.c6.kafka.eu-central-1.amazonaws.com:9092,b-2.arbm-kafka-cluster.7435vo.c6.kafka.eu-central-1.amazonaws.com:9092" --clientConfig builder.properties --topology descriptor.yaml --validate
   
+  # kafka-ops-cd:
+  #   name: 'kafka-ops-cd'
+  #   # runs-on: ubuntu-latest
+  #   runs-on: self-hosted
+  #   needs: kafka-ops-ci
+  #   environment:
+  #     name: abelNodeDemoAppEnv.prod
+  #     url: https://abel-node-gh-accelerator.azurewebsites.net
+  #   steps:
+  #   # Checkout
+  #   - name: Checkout
+  #     uses: actions/checkout@v1
+  #   - name: Julie-apply
+  #     id: julie-apply
+  #     run: |
+  #       chmod +x ./.github/scripts/install.sh
+  #       ./.github/scripts/install.sh

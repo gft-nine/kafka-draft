@@ -24,3 +24,4 @@ projects:
         config:
           replication.factor: "1"
           num.partitions: "1"
+          
